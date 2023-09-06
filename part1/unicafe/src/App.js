@@ -29,17 +29,15 @@ const App = () => {
    
   }
   
-
+  
   return (
+  
     <div>
       <h1>give feed back</h1>
        <button onClick={handleGoodtClick}>good</button>
        <button onClick={handleNeutraltClick}>neutral</button>
        <button onClick={handleBadtClick}>bad</button>
        <h2>Statistics</h2>
-       <p>good {good}</p>
-       <p>neutral {neutral}</p>
-       <p>bad {bad}</p>
        <Statistics good={good} neutral={neutral} bad={bad}/>
        
     </div>
