@@ -1,5 +1,4 @@
-
-import { useState } from 'react'
+import React, { useState } from 'react';
 
 const App = () => {
   const anecdotes = [
@@ -9,29 +8,36 @@ const App = () => {
     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-    'The only way to go fast, is to go well.'
-  ]
-   
-  const [selected, setSelected] = useState(0)
-  
+    'Programming without an extremely heavy use of console.log is the same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast is to go well.'
+  ];
+
+  const [selected, setSelected] = useState(0);
+  const [vote, setVote] = useState(new Array(anecdotes.length).fill(0));
+
   const randomHandler = () => {
-   
+
     const randomNumber=Math.random() * anecdotes.length
     const randomItem =Math.floor(randomNumber)
     console.log(randomNumber);
     console.log(randomItem);
     setSelected(randomItem)
  }
-  
 
- return (
-  <div>
-    <div>{anecdotes[selected]}</div>
-    <button onClick={randomHandler}>next anecdotes</button>
+  const voteHandler = () => {
+    const copyVote = [...vote];
+    copyVote[selected] += 1;
+    setVote(copyVote);
+  };
 
-  </div>
-  )
-}
+  return (
+    <div>
+      <div>{anecdotes[selected]}</div>
+      <p>Has {vote[selected]} votes</p>
+      <button onClick={voteHandler}>Vote</button>
+      <button onClick={randomHandler}>Next Anecdote</button>
+    </div>
+  );
+};
 
-export default App
+export default App;
