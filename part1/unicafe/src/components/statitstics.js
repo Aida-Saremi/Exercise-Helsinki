@@ -24,7 +24,7 @@ const Statistics = ({good,neutral,bad}) => {
           <StatisticLine text="all"  value={all()} />
           <StatisticLine text="average"  value={average()}/>
           <StatisticLine text="positive"  value={`${positive()}%`} />
-        </div>
+          </div>
       )
        }
   export default Statistics
