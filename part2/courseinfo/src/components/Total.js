@@ -1,6 +1,6 @@
 import React from 'react'
-  const Total = (props) => {
-    const Sum = props.parts.reduce((total, p) => total + p.exercises, 0);
+  const Total = ({parts}) => {
+    const Sum = parts.reduce((total, p) => total + p.exercises, 0);
   
     return (
       <div>
