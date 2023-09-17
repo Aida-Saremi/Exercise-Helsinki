@@ -1,4 +1,4 @@
-const Persons = ({filterPerson,persons}) => {
+const Persons = ({filterPerson}) => {
     return ( 
         <div>
         <ul>
