@@ -2,7 +2,9 @@ import { useState ,useEffect } from 'react'
 import Filter from './components/filter';
 import PersonForm from './components/personForm';
 import Persons from './components/persons';
-import personsBackend from './components/personsBackend';
+import personsBackend from './services/personsBackend';
+import axios from 'axios';
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -66,6 +68,25 @@ const App = () => {
   person.name.toLowerCase().includes(showPerson.toLowerCase())
   )
 
+  const handleDelete = (name,id) => {
+   const DeletePerson= window.confirm("Delete " + name + " ?") 
+    console.log(name,id)
+   
+    if (DeletePerson) {
+      personsBackend
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id))
+        // Handle success (optional)
+      })
+      .catch(error => {
+        // Handle error (optional)
+      });
+    
+          }
+     
+  }
+
 
   return (
     <div>
@@ -82,9 +103,8 @@ const App = () => {
      
       <h2>Numbers</h2>
 
-      <Persons filterPerson={filterPerson} persons={persons}/>
-      
-
+      <Persons filterPerson={filterPerson} persons={persons} handleDelete={handleDelete} />
+   
       
     </div>
   )
