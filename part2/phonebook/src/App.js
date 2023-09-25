@@ -77,10 +77,10 @@ const App = () => {
       .remove(id)
       .then(() => {
         setPersons(persons.filter((person) => person.id !== id))
-        // Handle success (optional)
+        
       })
       .catch(error => {
-        // Handle error (optional)
+        
       });
     
           }
