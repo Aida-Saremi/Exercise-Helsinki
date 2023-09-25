@@ -21,13 +21,24 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
+
   const addName = (event) => {
     event.preventDefault()
 
     console.log('button clicked', event.target)
     const newPerson={ name: newName, number: newNumber }
+    
+  axios
+  .post('http://localhost:3001/persons', newPerson)
+  .then(response => {
+    console.log(response.data)
+    setPersons(persons.concat(response.data))
+    
+   
+  })
 
     const isDuplicate = persons.map((person) => person.name).includes(newName);
+
 
 
     if (isDuplicate) {
