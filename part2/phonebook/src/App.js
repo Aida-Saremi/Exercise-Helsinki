@@ -30,31 +30,60 @@ const App = () => {
     console.log('button clicked', event.target)
     const newPerson={ name: newName, number: newNumber }
     
-  personsBackend
-  .create( newPerson)
-  .then(returnPerson=> {
-    console.log(returnPerson)
+    personsBackend
+    .create( newPerson)
+    .then(returnPerson=> {
+    console.log("returnPerson",returnPerson)
     setPersons(persons.concat(returnPerson))
     
+    
+  const isDuplicateName = persons.map((person) => person.name).includes(newName);
+  const isDuplicateNumber = persons.map((person) => person.number).includes(newNumber);
+ 
+  if (isDuplicateName && isDuplicateNumber) {
    
-  })
-
-    const isDuplicate = persons.map((person) => person.name).includes(newName);
-
-
-
-    if (isDuplicate) {
-      alert(`${newName} is already added to the phonebook`);
-      setNewName('');
+    alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
+    setNewName('');
     setNewNumber('');
-    } else {
-     setPersons(persons.concat(newPerson))
-      setNewName('');
+  } else if (isDuplicateName) {
+    console.log("name is repeated")
+    alert(`${newName} is already added to the phonebook`);
+    setNewName('');
     setNewNumber('');
+  } else if (isDuplicateNumber) {
+    alert(`The number ${newNumber} is already associated with another contact`);
+    setNewName('');
+    setNewNumber('');
+  } else {
+    // Create a new person object
+    const newPerson = {
+      name: newName,
+      number: newNumber,
+    };
+ 
+    // Add the new person to the phonebook
+    setPersons([...persons, newPerson]);
+ 
+    // Clear input fields
+    setNewName('');
+    setNewNumber('');
+
+    // const isDuplicate = persons.map((person) => person.name).includes(newName);
+
+
+
+    // if (isDuplicate) {
+    //   alert(`${newName} is already added to the phonebook`);
+    //   setNewName('');
+    // setNewNumber('');
+    // } else {
+    //  setPersons(persons.concat(newPerson))
+    //   setNewName('');
+    // setNewNumber('');
+    // }
     }
-  }
-  
-
+  })
+    }
   const handlePersoneChange = (event) =>{
     setNewName(event.target.value)
   }
