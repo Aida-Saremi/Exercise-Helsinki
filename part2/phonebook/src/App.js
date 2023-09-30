@@ -34,11 +34,11 @@ const App = () => {
     .create( newPerson)
     .then(returnPerson=> {
     console.log("returnPerson",returnPerson)
-    setPersons(persons.concat(returnPerson))
     
     
-  const isDuplicateName = persons.map((person) => person.name).includes(newName);
-  const isDuplicateNumber = persons.map((person) => person.number).includes(newNumber);
+    
+  const isDuplicateName = persons.map((person) => person.name).includes(returnPerson.name);
+  const isDuplicateNumber = persons.map((person) => person.number).includes(returnPerson.number);
  
   if (isDuplicateName && isDuplicateNumber) {
    
@@ -55,18 +55,20 @@ const App = () => {
     setNewName('');
     setNewNumber('');
   } else {
+
+    setPersons(persons.concat(returnPerson))
     // Create a new person object
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-    };
+    // const newPerson = {
+    //   name: newName,
+    //   number: newNumber,
+    // };
  
-    // Add the new person to the phonebook
-    setPersons([...persons, newPerson]);
+    // // Add the new person to the phonebook
+    // setPersons([...persons, newPerson]);
  
-    // Clear input fields
-    setNewName('');
-    setNewNumber('');
+    // // Clear input fields
+    // setNewName('');
+    // setNewNumber('');
 
     // const isDuplicate = persons.map((person) => person.name).includes(newName);
 
