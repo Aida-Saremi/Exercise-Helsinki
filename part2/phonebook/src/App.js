@@ -13,6 +13,7 @@ const App = () => {
   const [newName,setNewName]=useState('');
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
+  const [successMessage, setSuccessMessage] = useState('some error happened...')
   
   // Get data from server
   useEffect(() => {
@@ -28,95 +29,30 @@ const App = () => {
 
   // after click on submit=add
 
-  // const addName = (event) => {
-  //   event.preventDefault()
-
-  //   console.log('button clicked', event.target)
-  //   const newPerson={ name: newName, number: newNumber }
-    
-  //   personsBackend
-  //   .create( newPerson)
-  //   .then(returnPerson=> {
-  //   console.log("returnPerson",returnPerson)
-    
-    
-    
-  // const isDuplicateName = persons.map((person) => person.name).includes(returnPerson.name);
-  // const isDuplicateNumber = persons.map((person) => person.number).includes(returnPerson.number);
- 
-  // if (isDuplicateName && isDuplicateNumber) {
-   
-  //   alert(` ${newName}  with  this number ${newNumber} are already in the phonebook`);
-  //   setNewName('');
-  //   setNewNumber('');
-
-
-  // } else if (isDuplicateName) {
-
-  //   console.log("name is repeated")
-  //   const replaceNumber = window.confirm(`${newName} is already added to the phonebook,
-  //   replace the old number with a new one?`);
-    
-  //     if (replaceNumber) {
-  //       const personToUpdate = persons.find(p => p.name === newName);
-  //       const updatedPersons = persons.map(person =>
-  //         person.name !== newName ? person : { ...person, number: newNumber }
-  //       );
-
-  //       personsBackend
-  //       .update(personToUpdate.id, { ...personToUpdate, number: newNumber }).then(response => {
-  //         setPersons(updatedPersons)
-          
-  //       });
-  //     }
-         
-  //     //   const person = persons.find(p=> p.name === newName)
-  //     //   const changedNumber= { ...persons, number: newNumber }
-
-  //     //   console.log("changeNumber",changedNumber)
-  //     //   // personsBackend
-  //     //   // .update(id, changedNumber)
-  //     //   // .then(response => {
-  //     //   //   setPersons(persons.map(person => person.name !== newName ? person: response.data))
-  //     //   // })
-    
   
-  //     // }
-    
-  //   setNewName('');
-  //   setNewNumber('');
-
-  // } else if (isDuplicateNumber) {
-  //   alert(`The number ${newNumber} is already associated with another contact`);
-  //   setNewName('');
-  //   setNewNumber('');
-  // } else {
-
-  //   setPersons(persons.concat(returnPerson))
-  //   setNewName('');
-  //   setNewNumber('');
-
-   
-  //   }
-  // })
-  //   }
   const addName = (event) => {
     event.preventDefault();
   
-    const newPerson = { name: newName, number: newNumber };
+
+    
+   
+      const isDuplicateName = persons.map(person => person.name).includes(newName);
+      const isDuplicateNumber = persons.map(person => person.number).includes(newNumber);
+
+      if (!isDuplicateName && !isDuplicateNumber) {
+
+        const newPerson = { name: newName, number: newNumber };
   
-    personsBackend
-  .create( newPerson)
-  .then(returnPerson=> {
-    console.log(returnPerson)
-    setPersons(persons.concat(returnPerson))
+      personsBackend
+      .create( newPerson)
+      .then(returnPerson=> {
+      console.log(returnPerson)
+      setPersons(persons.concat(returnPerson))
     
    
   })
-      const isDuplicateName = persons.map(person => person.name).includes(newName);
-      const isDuplicateNumber = persons.map(person => person.number).includes(newNumber);
-  
-      if (isDuplicateName && isDuplicateNumber) {
+        
+      }else if (isDuplicateName && isDuplicateNumber) {
         alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
         setNewName('');
         setNewNumber('');
@@ -144,6 +80,8 @@ const App = () => {
         }
         setNewName('');
         setNewNumber('');
+
+         
       // } else if (isDuplicateNumber) {
       //   alert(`The number ${newNumber} is already associated with another contact`);
       //   setNewName('');
