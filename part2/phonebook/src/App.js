@@ -5,13 +5,16 @@ import Persons from './components/persons';
 import personsBackend from './services/personsBackend';
 import axios from 'axios';
 
-
+const baseUrl = 'http://localhost:3001/persons'
 const App = () => {
+
+  // containers
   const [persons, setPersons] = useState([]);
   const [newName,setNewName]=useState('');
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
-
+  
+  // Get data from server
   useEffect(() => {
     console.log('effect')
     personsBackend
@@ -23,69 +26,139 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
+  // after click on submit=add
 
-  const addName = (event) => {
-    event.preventDefault()
+  // const addName = (event) => {
+  //   event.preventDefault()
 
-    console.log('button clicked', event.target)
-    const newPerson={ name: newName, number: newNumber }
+  //   console.log('button clicked', event.target)
+  //   const newPerson={ name: newName, number: newNumber }
     
-    personsBackend
-    .create( newPerson)
-    .then(returnPerson=> {
-    console.log("returnPerson",returnPerson)
+  //   personsBackend
+  //   .create( newPerson)
+  //   .then(returnPerson=> {
+  //   console.log("returnPerson",returnPerson)
     
     
     
-  const isDuplicateName = persons.map((person) => person.name).includes(returnPerson.name);
-  const isDuplicateNumber = persons.map((person) => person.number).includes(returnPerson.number);
+  // const isDuplicateName = persons.map((person) => person.name).includes(returnPerson.name);
+  // const isDuplicateNumber = persons.map((person) => person.number).includes(returnPerson.number);
  
-  if (isDuplicateName && isDuplicateNumber) {
+  // if (isDuplicateName && isDuplicateNumber) {
    
-    alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
-    setNewName('');
-    setNewNumber('');
-  } else if (isDuplicateName) {
-    console.log("name is repeated")
-    alert(`${newName} is already added to the phonebook`);
-    setNewName('');
-    setNewNumber('');
-  } else if (isDuplicateNumber) {
-    alert(`The number ${newNumber} is already associated with another contact`);
-    setNewName('');
-    setNewNumber('');
-  } else {
+  //   alert(` ${newName}  with  this number ${newNumber} are already in the phonebook`);
+  //   setNewName('');
+  //   setNewNumber('');
 
+
+  // } else if (isDuplicateName) {
+
+  //   console.log("name is repeated")
+  //   const replaceNumber = window.confirm(`${newName} is already added to the phonebook,
+  //   replace the old number with a new one?`);
+    
+  //     if (replaceNumber) {
+  //       const personToUpdate = persons.find(p => p.name === newName);
+  //       const updatedPersons = persons.map(person =>
+  //         person.name !== newName ? person : { ...person, number: newNumber }
+  //       );
+
+  //       personsBackend
+  //       .update(personToUpdate.id, { ...personToUpdate, number: newNumber }).then(response => {
+  //         setPersons(updatedPersons)
+          
+  //       });
+  //     }
+         
+  //     //   const person = persons.find(p=> p.name === newName)
+  //     //   const changedNumber= { ...persons, number: newNumber }
+
+  //     //   console.log("changeNumber",changedNumber)
+  //     //   // personsBackend
+  //     //   // .update(id, changedNumber)
+  //     //   // .then(response => {
+  //     //   //   setPersons(persons.map(person => person.name !== newName ? person: response.data))
+  //     //   // })
+    
+  
+  //     // }
+    
+  //   setNewName('');
+  //   setNewNumber('');
+
+  // } else if (isDuplicateNumber) {
+  //   alert(`The number ${newNumber} is already associated with another contact`);
+  //   setNewName('');
+  //   setNewNumber('');
+  // } else {
+
+  //   setPersons(persons.concat(returnPerson))
+  //   setNewName('');
+  //   setNewNumber('');
+
+   
+  //   }
+  // })
+  //   }
+  const addName = (event) => {
+    event.preventDefault();
+  
+    const newPerson = { name: newName, number: newNumber };
+  
+    personsBackend
+  .create( newPerson)
+  .then(returnPerson=> {
+    console.log(returnPerson)
     setPersons(persons.concat(returnPerson))
-    // Create a new person object
-    // const newPerson = {
-    //   name: newName,
-    //   number: newNumber,
-    // };
- 
-    // // Add the new person to the phonebook
-    // setPersons([...persons, newPerson]);
- 
-    // // Clear input fields
-    // setNewName('');
-    // setNewNumber('');
-
-    // const isDuplicate = persons.map((person) => person.name).includes(newName);
-
-
-
-    // if (isDuplicate) {
-    //   alert(`${newName} is already added to the phonebook`);
-    //   setNewName('');
-    // setNewNumber('');
-    // } else {
-    //  setPersons(persons.concat(newPerson))
-    //   setNewName('');
-    // setNewNumber('');
-    // }
-    }
+    
+   
   })
-    }
+      const isDuplicateName = persons.map(person => person.name).includes(newName);
+      const isDuplicateNumber = persons.map(person => person.number).includes(newNumber);
+  
+      if (isDuplicateName && isDuplicateNumber) {
+        alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
+        setNewName('');
+        setNewNumber('');
+      } else if (isDuplicateName) {
+        const replaceNumber = window.confirm(`${newName} is already added to the phonebook,
+          replace the old number with a new one?`);
+          console.log("replaceNumber",replaceNumber)
+  
+        if (replaceNumber) {
+          const personToUpdate = persons.find(p => p.name === newName);
+          const updatedPerson = { ...personToUpdate, number: newNumber };
+           
+          const key=personToUpdate.id
+
+          console.log("id",key)
+          axios.put(`${baseUrl}/${key}`, updatedPerson).then(response => {
+            setPersons(persons.map(p => p.id !== key ? p : response.data))
+          })
+        }
+          // personsBackend.update(personToUpdate.id, updatedPerson).then(response => {
+          //   setPersons(persons.map(person => (person.id !== personToUpdate.id) ? person : response));
+            
+          // });
+        
+        }
+        setNewName('');
+        setNewNumber('');
+      // } else if (isDuplicateNumber) {
+      //   alert(`The number ${newNumber} is already associated with another contact`);
+      //   setNewName('');
+      //   setNewNumber('');
+      // } else {
+      //   setPersons(persons.concat(returnPerson));
+      //   setNewName('');
+      //   setNewNumber('');
+       
+    
+  };
+  
+    
+    // handleClicks
+
   const handlePersoneChange = (event) =>{
     setNewName(event.target.value)
   }
@@ -140,4 +213,5 @@ const App = () => {
     </div>
   )
 }
+
 export default App
