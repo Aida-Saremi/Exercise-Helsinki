@@ -3,7 +3,7 @@ import Filter from './components/filter';
 import PersonForm from './components/personForm';
 import Persons from './components/persons';
 import personsBackend from './services/personsBackend';
-import axios from 'axios';
+import Notification from './components/notification';
 
 const baseUrl = 'http://localhost:3001/persons'
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
   const [newName,setNewName]=useState('');
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
-  const [successMessage, setSuccessMessage] = useState('some error happened...')
+  const [successMessage, setSuccessMessage] = useState('')
   
   // Get data from server
   useEffect(() => {
@@ -50,8 +50,16 @@ const App = () => {
       console.log(returnPerson)
        setPersons(persons.concat(returnPerson))
    
-  })
-        
+      // Successs messsage after add person
+        setSuccessMessage(
+        `Added ${newName}`
+          )
+           setTimeout(() => {
+             setSuccessMessage(null)
+               }, 5000)
+     
+              })
+
       }else if (isDuplicateName && isDuplicateNumber) {
         alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
         
@@ -76,6 +84,15 @@ const App = () => {
             setPersons(
               persons.map(p =>(p.id=== key ? response.data : p))
             );
+
+            setSuccessMessage(
+              `${newName}'s number changed`
+                )
+                 setTimeout(() => {
+                   setSuccessMessage(null)
+                     }, 5000)
+           
+                  
             
           });   
 
@@ -133,7 +150,7 @@ const App = () => {
   return (
     <div>
        <h2>Phonebook</h2>
-
+       <Notification message={successMessage}/>
        
       <Filter showPerson={showPerson}
          showhandlre={showhandlre}/>
