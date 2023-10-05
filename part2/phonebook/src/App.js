@@ -36,24 +36,25 @@ const App = () => {
 
     
    
-      const isDuplicateName = persons.map(person => person.name).includes(newName);
+      const isDuplicateName =  persons.map(person => person.name).includes(newName);
       const isDuplicateNumber = persons.map(person => person.number).includes(newNumber);
 
       if (!isDuplicateName && !isDuplicateNumber) {
 
         const newPerson = { name: newName, number: newNumber };
   
+    
       personsBackend
       .create( newPerson)
       .then(returnPerson=> {
       console.log(returnPerson)
-      setPersons(persons.concat(returnPerson))
-    
+       setPersons(persons.concat(returnPerson))
    
   })
         
       }else if (isDuplicateName && isDuplicateNumber) {
         alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
+        
         setNewName('');
         setNewNumber('');
       } else if (isDuplicateName) {
@@ -64,33 +65,32 @@ const App = () => {
         if (replaceNumber) {
           const personToUpdate = persons.find(p => p.name === newName);
           const updatedPerson = { ...personToUpdate, number: newNumber };
-           
-          const key=personToUpdate.id
 
-          console.log("id",key)
-          axios.put(`${baseUrl}/${key}`, updatedPerson).then(response => {
-            setPersons(persons.map(p => p.id !== key ? p : response.data))
-          })
-        }
-          // personsBackend.update(personToUpdate.id, updatedPerson).then(response => {
-          //   setPersons(persons.map(person => (person.id !== personToUpdate.id) ? person : response));
+          // I have problem for transform axios to Backend 
+           
+          
+          const key=updatedPerson.id
+        
+
+          personsBackend.update(key, updatedPerson ).then(response => {
+            setPersons(
+              persons.map(p =>(p.id=== key ? response.data : p))
+            );
             
-          // });
+          });   
+
+
+          console.log("updatedPerson",updatedPerson)
+          
+          // axios.put(`${baseUrl}/${key}`, updatedPerson).then(response => {
+          //   setPersons(persons.map(p => p.id !== key ? p : response.data))
+          // })
+        }
+          
         
         }
         setNewName('');
         setNewNumber('');
-
-         
-      // } else if (isDuplicateNumber) {
-      //   alert(`The number ${newNumber} is already associated with another contact`);
-      //   setNewName('');
-      //   setNewNumber('');
-      // } else {
-      //   setPersons(persons.concat(returnPerson));
-      //   setNewName('');
-      //   setNewNumber('');
-       
     
   };
   
