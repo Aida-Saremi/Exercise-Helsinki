@@ -4,6 +4,8 @@ import PersonForm from './components/personForm';
 import Persons from './components/persons';
 import personsBackend from './services/personsBackend';
 import Notification from './components/notification';
+import NotificationError from './components/notificationError';
+
 
 const baseUrl = 'http://localhost:3001/persons'
 const App = () => {
@@ -14,7 +16,7 @@ const App = () => {
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
   const [successMessage, setSuccessMessage] = useState('')
-  
+  const [errorMessage, setErrorMessage] = useState('')
   // Get data from server
   useEffect(() => {
     console.log('effect')
@@ -94,7 +96,16 @@ const App = () => {
            
                   
             
-          });   
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Information of ${newName}'has already been removed from server.`
+                )
+                 setTimeout(() => {
+                   setErrorMessage(null)
+                     }, 5000)
+                     setPersons(persons.filter(p=> p.name !== newName))
+          });
 
 
           console.log("updatedPerson",updatedPerson)
@@ -151,7 +162,7 @@ const App = () => {
     <div>
        <h2>Phonebook</h2>
        <Notification message={successMessage}/>
-       
+       <NotificationError message={errorMessage}/>
       <Filter showPerson={showPerson}
          showhandlre={showhandlre}/>
       <h2>Add a new</h2>
