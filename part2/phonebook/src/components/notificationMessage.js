@@ -1,15 +1,14 @@
 import './notification.css'
 
-const Notification = ({ message }) => {
+const NotificationMessage = ({ message }) => {
     if (message === null) {
       return null
-    }
-  
-    return (
+    }else if (message){
+      return (
       <div className='notification'>
         {message}
       </div>
     )
   }
-
-  export default Notification;
+}
+  export default NotificationMessage;

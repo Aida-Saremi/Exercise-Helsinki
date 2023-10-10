@@ -3,7 +3,7 @@ import './notificationError.css'
 const NotificationError = ({ message }) => {
     if (message === null) {
       return null
-    }
+    }else if (message){
   
     return (
       <div className='notificationError'>
@@ -11,5 +11,5 @@ const NotificationError = ({ message }) => {
       </div>
     )
   }
-
+}
   export default NotificationError;

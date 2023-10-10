@@ -3,7 +3,7 @@ import Filter from './components/filter';
 import PersonForm from './components/personForm';
 import Persons from './components/persons';
 import personsBackend from './services/personsBackend';
-import Notification from './components/notification';
+import NotificationMessage from './components/notificationMessage';
 import NotificationError from './components/notificationError';
 
 
@@ -17,6 +17,7 @@ const App = () => {
   const [showPerson,setShowPerson]=useState('');
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  
   // Get data from server
   useEffect(() => {
     console.log('effect')
@@ -161,7 +162,7 @@ const App = () => {
   return (
     <div>
        <h2>Phonebook</h2>
-       <Notification message={successMessage}/>
+       <NotificationMessage message={successMessage}/>
        <NotificationError message={errorMessage}/>
       <Filter showPerson={showPerson}
          showhandlre={showhandlre}/>
