@@ -40,7 +40,7 @@ const App = () => {
       setSuggestions([]);
       setError('');
     }
-  }, [value]);
+  }, [value]);  //vaghti pak mikonim input ro baz change hesab mishe vali chera ba pak shodan refresh nemishe 
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -57,12 +57,12 @@ const App = () => {
     <div>
       <label htmlFor="search">Find Countries:</label>
       <input id="search" value={value} onChange={handleChange} /> 
-
       {suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion, index) => (
-            <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+            <li key={index}>
               {suggestion}
+              <button onClick={() =>handleSuggestionClick(suggestion)}>Show</button>
             </li>
           ))}
         </ul>
