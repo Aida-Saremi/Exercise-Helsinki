@@ -10,6 +10,7 @@ const App = () => {
   useEffect(() => {
     if (value) {
       axios
+      // .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${value}`)
         .get(`https://restcountries.com/v3.1/name/${value}`)
         .then(response => {
           const data = response.data;
