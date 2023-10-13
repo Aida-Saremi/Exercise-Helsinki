@@ -6,6 +6,8 @@ const App = () => {
   const [country, setCountry] = useState({});
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState('');
+  const [weather, setWeather] = useState(null);
+
 
   useEffect(() => {
     if (value) {
@@ -27,6 +29,9 @@ const App = () => {
             setError('');
             setCountry(data[0] || {});
             setSuggestions([]);
+            if (data[0]?.capital) {
+              fetchWeather(data[0].capital);
+            }
             
           }
         })
@@ -52,6 +57,20 @@ const App = () => {
     setValue(suggestion);
     // Clear suggestions
     setSuggestions([]);
+  };
+
+  const fetchWeather = async capital => {
+    try {
+      const apiKey = '69835183366e648af4752e46cac1c615'; 
+      const weatherResponse = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}`
+      );
+      setWeather(weatherResponse.data);
+      console.log(weather)
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      setWeather(null);
+    }
   };
 
   return (
@@ -93,6 +112,21 @@ const App = () => {
               src={country.flags.png}
               alt={`${country.name.common} flag`}
             />
+          )}
+           {weather && (
+            <div>
+              <h2>Weather in {country.capital}</h2>
+              <p>Temperature: {Math.floor(weather.main.temp-273.15)}°C</p>
+              
+             <img
+               style={{ margin: '20px 0' }}
+                width="100px"
+                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                 alt={`${country.name.common} weather icon`}
+                  />
+                
+              <p>Wind: {weather.wind.speed}</p>
+            </div>
           )}
         </div>
       )}
