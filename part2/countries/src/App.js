@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-
 const App = () => {
   const [value, setValue] = useState('');
   const [country, setCountry] = useState({});
@@ -63,7 +62,9 @@ const App = () => {
 
   const fetchWeather = async capital => {
     try {
-      const apiKey = import.meta.env.VITE_SOME_KEY
+      
+      const apiKey =  process.env.REACT_APP_API_KEY;
+      console.log(apiKey)
       const weatherResponse = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}`
       );
