@@ -14,16 +14,6 @@ let persons = [
           "id": 2,
           "name": "Ada Lovelace", 
           "number": "39-44-5323523"
-        },
-        { 
-          "id": 3,
-          "name": "Dan Abramov", 
-          "number": "12-43-234345"
-        },
-        { 
-          "id": 4,
-          "name": "Mary Poppendieck", 
-          "number": "39-2"
         }
     ]
 app.get('/', (request, response) => {
@@ -34,13 +24,24 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
+app.get('/info', (request, response) => {
+  const date = new Date();
+  const entriesCount = persons.length;
+
+  const infoMessage = `
+    <p>Phonebook has info for ${entriesCount} people</p>
+    <p>${date}</p>
+  `;
+
+  response.send(infoMessage);
+});
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
 app.post('/api/persons', (request, response) => {
-  const note = request.body
+  const person = request.body
   console.log(persons)
   response.json(persons)
 })
