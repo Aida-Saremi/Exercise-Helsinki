@@ -45,6 +45,11 @@ app.get('/info', (request, response) => {
 
   response.send(infoMessage);
 });
+app.post('/api/persons', (request, response) => {
+  const person = request.body
+  console.log(persons)
+  response.json(persons)
+})
 
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
@@ -56,14 +61,14 @@ app.get('/api/persons/:id', (request, response) => {
     response.status(404).send('Not Found');
   }
 });
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((p) => p.id !== id);
 
+  response.status(204).end(); // 204 successful delete requests
+});
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-app.post('/api/persons', (request, response) => {
-  const person = request.body
-  console.log(persons)
-  response.json(persons)
-})
