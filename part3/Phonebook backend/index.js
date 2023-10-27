@@ -45,11 +45,24 @@ app.get('/info', (request, response) => {
 
   response.send(infoMessage);
 });
+
+
 app.post('/api/persons', (request, response) => {
-  const person = request.body
-  console.log(persons)
-  response.json(persons)
-})
+  const body = request.body;
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({ error: 'Name and number are required' });
+  }
+
+  const newPerson = {
+    id: generateId(), // Use a function to generate a new ID
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(newPerson);
+  response.json(newPerson);
+});
 
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
@@ -72,3 +85,6 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
+function generateId() {
+  return Math.floor(Math.random() * 1000000);
+}
