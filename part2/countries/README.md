@@ -1,3 +1,6 @@
+![Screenshot 2023-11-05 220202](https://github.com/Aida-Saremi/Exercise-Helsinki/assets/31365027/8ceab3c2-97e6-48ec-9c44-ac2797d90516)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
