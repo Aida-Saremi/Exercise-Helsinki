@@ -1,3 +1,6 @@
+
+<img width="370" alt="image" src="https://github.com/Aida-Saremi/Exercise-Helsinki/assets/31365027/997c3c55-056d-4d1f-ac16-4bbc4ead653e">
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
